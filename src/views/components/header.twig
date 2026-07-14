@@ -1,0 +1,113 @@
+<header class="site-header" id="site-header">
+    <div class="site-header__top">
+        <button class="site-header__menu-toggle" aria-label="فتح القائمة" id="menu-toggle">
+            <span></span><span></span><span></span>
+        </button>
+
+        <a href="/" class="site-header__logo">
+            {% if store.logo %}
+                <img src="{{ store.logo }}" alt="{{ store.name }}">
+            {% else %}
+                <span class="site-header__logo-text">{{ store.name }}</span>
+            {% endif %}
+        </a>
+
+        <div class="site-header__actions">
+            <a href="/search" class="site-header__icon-btn" aria-label="بحث">{{ salla_icon('search') }}</a>
+            <a href="/customer/wishlist" class="site-header__icon-btn" aria-label="المفضلة">{{ salla_icon('heart') }}</a>
+            <a href="/customer/profile" class="site-header__icon-btn" aria-label="حسابي">{{ salla_icon('user') }}</a>
+            <a href="/cart" class="site-header__icon-btn site-header__cart" aria-label="السلة">
+                {{ salla_icon('bag') }}
+                <span class="site-header__cart-count" id="cart-count">{{ cart.items_count|default(0) }}</span>
+            </a>
+        </div>
+    </div>
+
+    <nav class="site-header__nav" id="site-nav" aria-label="القائمة الرئيسية">
+        {% component 'main-menu' %}
+    </nav>
+</header>
+
+<style>
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-cream-soft);
+    border-bottom: 1px solid var(--color-border);
+}
+.site-header__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem clamp(1.25rem, 5vw, 3rem);
+}
+.site-header__logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+}
+.site-header__logo img { max-height: 44px; }
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+.site-header__icon-btn {
+    position: relative;
+    color: var(--color-dark);
+    transition: color var(--duration-fast) var(--ease-luxury);
+}
+.site-header__icon-btn:hover { color: var(--color-primary); }
+.site-header__cart-count {
+    position: absolute;
+    top: -8px;
+    inset-inline-end: -10px;
+    background: var(--color-primary);
+    color: var(--color-dark);
+    font-size: 0.65rem;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.site-header__menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+.site-header__menu-toggle span {
+    width: 22px;
+    height: 1px;
+    background: var(--color-dark);
+}
+.site-header__nav {
+    border-top: 1px solid var(--color-border);
+    padding: 0.85rem clamp(1.25rem, 5vw, 3rem);
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+}
+@media (max-width: 860px) {
+    .site-header__menu-toggle { display: flex; }
+    .site-header__nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--duration-medium) var(--ease-luxury);
+        padding-inline: 1.25rem;
+    }
+    .site-header__nav.is-open {
+        max-height: 400px;
+        padding-block: 0.85rem;
+    }
+}
+</style>
