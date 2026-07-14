@@ -1,0 +1,13 @@
+{% extends "layouts.master" %}
+
+{% block content %}
+    {% component 'home.hero-video' %}
+    {% component 'home.animated-banners' %}
+    {% component 'home.featured-curated' %}
+    {% component 'home.brand-story' %}
+    {% component home %} {# Salla built-in features enabled via twilight.json (testimonials, store-features...) #}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ 'home.js'|asset('dist/home.js') }}" defer></script>
+{% endblock %}
