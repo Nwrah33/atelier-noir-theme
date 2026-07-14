@@ -1,0 +1,90 @@
+<footer class="site-footer">
+    <div class="site-footer__newsletter section reveal">
+        <h2 class="section-title" style="text-align:center">انضم إلى عالمنا</h2>
+        <p class="site-footer__newsletter-text">كن أول من يعلم بالتشكيلات الجديدة والعروض الحصرية</p>
+        <form class="site-footer__newsletter-form" id="newsletter-form">
+            <input type="email" placeholder="بريدك الإلكتروني" required class="site-footer__newsletter-input">
+            <button type="submit" class="btn-luxury">اشتراك</button>
+        </form>
+    </div>
+
+    <div class="site-footer__main">
+        <div class="site-footer__col">
+            <span class="site-footer__logo">{{ store.name }}</span>
+            <p class="site-footer__about">{{ store.description|default('') }}</p>
+            <div class="site-footer__social">
+                {% if store.social.instagram %}<a href="{{ store.social.instagram }}" aria-label="انستغرام">{{ salla_icon('instagram') }}</a>{% endif %}
+                {% if store.social.twitter %}<a href="{{ store.social.twitter }}" aria-label="تويتر">{{ salla_icon('twitter') }}</a>{% endif %}
+                {% if store.social.tiktok %}<a href="{{ store.social.tiktok }}" aria-label="تيك توك">{{ salla_icon('tiktok') }}</a>{% endif %}
+            </div>
+        </div>
+
+        <div class="site-footer__col">
+            <h3 class="site-footer__heading">تسوقي</h3>
+            <a href="/collections/fashion">الأزياء</a>
+            <a href="/collections/accessories">الإكسسوارات</a>
+            <a href="/collections/perfumes">العطور</a>
+            <a href="/collections/all">جميع المنتجات</a>
+        </div>
+
+        <div class="site-footer__col">
+            <h3 class="site-footer__heading">سياسات المتجر</h3>
+            <a href="/policies/shipping">{{ theme.settings.get('policy_shipping_title')|default('الشحن والتوصيل') }}</a>
+            <a href="/policies/returns">{{ theme.settings.get('policy_returns_title')|default('الإرجاع والاستبدال') }}</a>
+            <a href="/policies/privacy">{{ theme.settings.get('policy_privacy_title')|default('سياسة الخصوصية') }}</a>
+            <a href="/policies/terms">{{ theme.settings.get('policy_terms_title')|default('الشروط والأحكام') }}</a>
+        </div>
+
+        <div class="site-footer__col">
+            <h3 class="site-footer__heading">تواصل معنا</h3>
+            {% if store.phone %}<a href="tel:{{ store.phone }}">{{ store.phone }}</a>{% endif %}
+            {% if store.email %}<a href="mailto:{{ store.email }}">{{ store.email }}</a>{% endif %}
+        </div>
+    </div>
+
+    <div class="site-footer__bottom">
+        <span>© {{ "now"|date("Y") }} {{ store.name }}. جميع الحقوق محفوظة</span>
+        {% component 'payment-methods' %}
+    </div>
+</footer>
+
+<style>
+.site-footer { background: var(--color-dark); color: var(--color-cream); margin-top: var(--space-section); }
+.site-footer__newsletter { text-align: center; border-bottom: 1px solid rgba(245,241,234,0.1); }
+.site-footer__newsletter-text { color: rgba(245,241,234,0.65); margin-bottom: 2rem; }
+.site-footer__newsletter-form { display: flex; gap: 0.75rem; max-width: 420px; margin: 0 auto; }
+.site-footer__newsletter-input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(245,241,234,0.25);
+    color: var(--color-cream);
+    padding: 0.85rem 1.1rem;
+}
+.site-footer__main {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 2.5rem;
+    padding: var(--space-section) clamp(1.25rem, 5vw, 3rem);
+}
+@media (max-width: 800px) {
+    .site-footer__main { grid-template-columns: 1fr 1fr; }
+}
+.site-footer__col { display: flex; flex-direction: column; gap: 0.7rem; }
+.site-footer__col a { color: rgba(245,241,234,0.7); font-size: 0.9rem; transition: color var(--duration-fast) var(--ease-luxury); }
+.site-footer__col a:hover { color: var(--color-primary); }
+.site-footer__logo { font-family: var(--font-heading); font-size: 1.3rem; color: var(--color-cream); }
+.site-footer__about { color: rgba(245,241,234,0.6); font-size: 0.88rem; line-height: 1.8; }
+.site-footer__heading { color: var(--color-primary); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 0.5rem; }
+.site-footer__social { display: flex; gap: 1rem; margin-top: 0.5rem; }
+.site-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem clamp(1.25rem, 5vw, 3rem);
+    border-top: 1px solid rgba(245,241,234,0.1);
+    font-size: 0.8rem;
+    color: rgba(245,241,234,0.5);
+}
+</style>
