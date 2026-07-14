@@ -1,0 +1,52 @@
+{% extends "layouts.master" %}
+
+{% block content %}
+<section class="policy-page section">
+    <div class="policy-page__header reveal" style="text-align:center">
+        <span class="section-eyebrow">سياسات المتجر</span>
+        <h1 class="section-title">{{ page.title }}</h1>
+        <hr class="section-divider">
+    </div>
+
+    <div class="policy-page__body reveal">
+        {{ page.content }}
+    </div>
+
+    <nav class="policy-page__nav" aria-label="روابط السياسات الأخرى">
+        <a href="/policies/shipping" class="policy-page__nav-link">{{ theme.settings.get('policy_shipping_title')|default('الشحن والتوصيل') }}</a>
+        <a href="/policies/returns" class="policy-page__nav-link">{{ theme.settings.get('policy_returns_title')|default('الإرجاع والاستبدال') }}</a>
+        <a href="/policies/privacy" class="policy-page__nav-link">{{ theme.settings.get('policy_privacy_title')|default('سياسة الخصوصية') }}</a>
+        <a href="/policies/terms" class="policy-page__nav-link">{{ theme.settings.get('policy_terms_title')|default('الشروط والأحكام') }}</a>
+    </nav>
+</section>
+
+<style>
+.policy-page__body {
+    max-width: 760px;
+    margin: 0 auto;
+    line-height: 2;
+    color: var(--color-text-muted);
+}
+.policy-page__body h2, .policy-page__body h3 {
+    color: var(--color-dark);
+    margin-top: 2rem;
+}
+.policy-page__nav {
+    max-width: 760px;
+    margin: 3.5rem auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+.policy-page__nav-link {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    transition: color var(--duration-fast) var(--ease-luxury);
+}
+.policy-page__nav-link:hover {
+    color: var(--color-primary);
+}
+</style>
+{% endblock %}
