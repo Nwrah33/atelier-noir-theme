@@ -8,24 +8,24 @@
   "settings": [
     {
       "type": "section",
-      "label": "الهيرو الرئيسي (فيديو الغلاف)",
+      "label": "الهوية والألوان",
+      "name": "brand_colors",
+      "fields": [
+        { "id": "color_primary", "type": "color", "label": "اللون الأساسي (الذهبي/الفخم)", "default": "#B08D57" },
+        { "id": "color_dark", "type": "color", "label": "اللون الداكن الأساسي", "default": "#151515" },
+        { "id": "color_cream", "type": "color", "label": "لون الخلفية الفاتحة", "default": "#F5F1EA" }
+      ]
+    },
+    {
+      "type": "section",
+      "label": "الهيرو الرئيسي (صورة الغلاف)",
       "name": "hero_section",
       "fields": [
-        { "id": "hero_media_type", "type": "select", "label": "نوع وسائط الهيرو",
-          "options": [
-            { "label": "فيديو يوتيوب", "value": "youtube" },
-            { "label": "صورة ثابتة", "value": "image" }
-          ], "default": "youtube" },
-        { "id": "hero_youtube_url", "type": "text", "label": "رابط فيديو يوتيوب",
-          "placeholder": "https://www.youtube.com/watch?v=..." },
-        { "id": "hero_image", "type": "image", "label": "صورة الهيرو (تُستخدم كبديل عند تعطيل الفيديو أو على الجوال)" },
+        { "id": "hero_image", "type": "image", "label": "صورة الهيرو الرئيسية" },
         { "id": "hero_title", "type": "text", "label": "العنوان الرئيسي", "default": "فخامة لا تُقاس بالوقت" },
-        { "id": "hero_subtitle", "type": "textarea", "label": "العنوان الفرعي",
-          "default": "تشكيلة حصرية من الأزياء والعطور والإكسسوارات، مُنتقاة لمن يعرف قيمة التفاصيل" },
+        { "id": "hero_subtitle", "type": "textarea", "label": "العنوان الفرعي", "default": "تشكيلة حصرية من الأزياء والعطور والإكسسوارات" },
         { "id": "hero_button_text", "type": "text", "label": "نص الزر", "default": "اكتشف التشكيلة" },
-        { "id": "hero_button_url", "type": "url", "label": "رابط الزر", "default": "/collections/all" },
-        { "id": "hero_overlay_opacity", "type": "range", "label": "شفافية الطبقة السوداء فوق الفيديو",
-          "min": 0, "max": 90, "step": 5, "unit": "%", "default": 40 }
+        { "id": "hero_button_url", "type": "text", "label": "رابط الزر", "default": "/collections/all" }
       ]
     },
     {
@@ -34,88 +34,19 @@
       "name": "banners_section",
       "fields": [
         { "id": "banners_enabled", "type": "checkbox", "label": "تفعيل شريط البنرات المتحركة", "default": true },
-        { "id": "banners_autoplay_speed", "type": "range", "label": "سرعة التبديل التلقائي (ثانية)",
-          "min": 2, "max": 10, "step": 1, "default": 5 },
         { "id": "banner_1_image", "type": "image", "label": "بنر 1 - صورة (يفضّل 1600×600px)" },
         { "id": "banner_1_title", "type": "text", "label": "بنر 1 - عنوان", "default": "تشكيلة العطور الجديدة" },
-        { "id": "banner_1_url", "type": "url", "label": "بنر 1 - رابط عند الضغط", "default": "/collections/perfumes" },
-        { "id": "banner_2_image", "type": "image", "label": "بنر 2 - صورة" },
-        { "id": "banner_2_title", "type": "text", "label": "بنر 2 - عنوان", "default": "إكسسوارات مختارة بعناية" },
-        { "id": "banner_2_url", "type": "url", "label": "بنر 2 - رابط عند الضغط", "default": "/collections/accessories" },
-        { "id": "banner_3_image", "type": "image", "label": "بنر 3 - صورة" },
-        { "id": "banner_3_title", "type": "text", "label": "بنر 3 - عنوان", "default": "أزياء الموسم" },
-        { "id": "banner_3_url", "type": "url", "label": "بنر 3 - رابط عند الضغط", "default": "/collections/fashion" }
-      ]
-    },
-    {
-      "type": "section",
-      "label": "قسم المنتجات المميزة",
-      "name": "featured_section",
-      "fields": [
-        { "id": "featured_title", "type": "text", "label": "عنوان القسم", "default": "قطع مختارة لهذا الموسم" },
-        { "id": "featured_collection", "type": "collection", "label": "اختر تصنيف المنتجات المميزة" },
-        { "id": "featured_display_style", "type": "select", "label": "طريقة العرض",
-          "options": [
-            { "label": "سلايدر أفقي", "value": "slider" },
-            { "label": "شبكة ثابتة", "value": "grid" }
-          ], "default": "slider" }
-      ]
-    },
-    {
-      "type": "section",
-      "label": "فيديو العلامة التجارية (About/Brand story)",
-      "name": "brand_video_section",
-      "fields": [
-        { "id": "brand_video_enabled", "type": "checkbox", "label": "تفعيل قسم فيديو القصة", "default": true },
-        { "id": "brand_video_url", "type": "text", "label": "رابط فيديو القصة (يوتيوب أو رابط مباشر)" },
-        { "id": "brand_video_poster", "type": "image", "label": "صورة الغلاف قبل تشغيل الفيديو" },
-        { "id": "brand_video_title", "type": "text", "label": "عنوان القسم", "default": "حكايتنا" },
-        { "id": "brand_video_text", "type": "textarea", "label": "نص القسم",
-          "default": "كل قطعة نختارها تحمل توقيعًا من الذوق الرفيع والجودة التي لا تتنازل" }
-      ]
-    },
-    {
-      "type": "section",
-      "label": "الألوان والهوية",
-      "name": "brand_colors",
-      "fields": [
-        { "id": "color_primary", "type": "color", "label": "اللون الأساسي (الذهبي/الفخم)", "default": "#B08D57" },
-        { "id": "color_dark", "type": "color", "label": "اللون الداكن الأساسي", "default": "#151515" },
-        { "id": "color_cream", "type": "color", "label": "لون الخلفية الفاتحة", "default": "#F5F1EA" },
-        { "id": "font_heading", "type": "select", "label": "خط العناوين",
-          "options": [
-            { "label": "Playfair Display", "value": "playfair" },
-            { "label": "Cormorant Garamond", "value": "cormorant" }
-          ], "default": "playfair" }
-      ]
-    },
-    {
-      "type": "section",
-      "label": "سياسات المتجر",
-      "name": "store_policies",
-      "fields": [
-        { "id": "policy_shipping_title", "type": "text", "label": "عنوان سياسة الشحن", "default": "الشحن والتوصيل" },
-        { "id": "policy_shipping_body", "type": "richtext", "label": "نص سياسة الشحن" },
-        { "id": "policy_returns_title", "type": "text", "label": "عنوان سياسة الإرجاع", "default": "الإرجاع والاستبدال" },
-        { "id": "policy_returns_body", "type": "richtext", "label": "نص سياسة الإرجاع" },
-        { "id": "policy_privacy_title", "type": "text", "label": "عنوان سياسة الخصوصية", "default": "سياسة الخصوصية" },
-        { "id": "policy_privacy_body", "type": "richtext", "label": "نص سياسة الخصوصية" },
-        { "id": "policy_terms_title", "type": "text", "label": "عنوان الشروط والأحكام", "default": "الشروط والأحكام" },
-        { "id": "policy_terms_body", "type": "richtext", "label": "نص الشروط والأحكام" }
+        { "id": "banner_1_url", "type": "text", "label": "بنر 1 - رابط عند الضغط", "default": "/collections/perfumes" }
       ]
     }
   ],
 
   "features": [
-    "component-featured-products",
-    "component-testimonials",
     "component-store-features"
   ],
 
   "components": [
     { "name": "Hero Video Banner", "path": "home.hero-video", "icon": "video" },
-    { "name": "Animated Banners Strip", "path": "home.animated-banners", "icon": "image" },
-    { "name": "Featured Products Curated", "path": "home.featured-curated", "icon": "star" },
-    { "name": "Brand Story Video", "path": "home.brand-story", "icon": "play" }
+    { "name": "Animated Banners Strip", "path": "home.animated-banners", "icon": "image" }
   ]
 }
