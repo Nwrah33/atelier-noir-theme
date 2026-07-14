@@ -1,0 +1,119 @@
+{#
+    Hero Video Banner
+    كل شي هنا يتحكم فيه التاجر من لوحة تحكم سلة عبر twilight.json:
+    - نوع الوسائط (فيديو مرفوع / يوتيوب / صورة)
+    - العنوان والنص والزر
+    - شفافية الطبقة السوداء
+#}
+{% set media_type = theme.settings.get('hero_media_type')|default('video') %}
+{% set overlay = theme.settings.get('hero_overlay_opacity')|default(40) %}
+
+<section class="hero-video" aria-label="{{ theme.settings.get('hero_title') }}">
+    <div class="hero-video__media">
+        {% if media_type == 'video' and theme.settings.get('hero_video') %}
+            <video autoplay muted loop playsinline
+                   poster="{{ theme.settings.get('hero_image')|default('') }}"
+                   class="hero-video__el">
+                <source src="{{ theme.settings.get('hero_video') }}" type="video/mp4">
+            </video>
+        {% elseif media_type == 'youtube' and theme.settings.get('hero_youtube_url') %}
+            <div class="hero-video__youtube" data-youtube-url="{{ theme.settings.get('hero_youtube_url') }}"></div>
+        {% else %}
+            <img src="{{ theme.settings.get('hero_image')|default('') }}"
+                 alt="{{ theme.settings.get('hero_title') }}"
+                 class="hero-video__el hero-video__el--img" loading="eager">
+        {% endif %}
+        <div class="hero-video__overlay" style="--overlay-opacity: {{ overlay / 100 }}"></div>
+    </div>
+
+    <div class="hero-video__content reveal">
+        <span class="section-eyebrow">{{ store.name }}</span>
+        <h1 class="hero-video__title">{{ theme.settings.get('hero_title')|default('فخامة لا تُقاس بالوقت') }}</h1>
+        <p class="hero-video__subtitle">{{ theme.settings.get('hero_subtitle') }}</p>
+
+        {% if theme.settings.get('hero_button_text') %}
+            <a href="{{ theme.settings.get('hero_button_url')|default('/collections/all') }}" class="btn-luxury">
+                {{ theme.settings.get('hero_button_text') }}
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="hero-video__scroll-cue" aria-hidden="true">
+        <span></span>
+    </div>
+</section>
+
+<style>
+.hero-video {
+    position: relative;
+    height: 92vh;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--color-dark);
+}
+.hero-video__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+.hero-video__el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hero-video__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--color-dark);
+    opacity: var(--overlay-opacity, 0.4);
+}
+.hero-video__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 720px;
+    padding: 0 1.5rem;
+    color: var(--color-cream);
+}
+.hero-video__title {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    color: var(--color-cream);
+    margin: 0.5rem 0 1.25rem;
+    line-height: 1.15;
+}
+.hero-video__subtitle {
+    font-size: 1.05rem;
+    color: rgba(245, 241, 234, 0.85);
+    max-width: 520px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+}
+.hero-video__scroll-cue {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 1px;
+    height: 48px;
+    background: rgba(245, 241, 234, 0.3);
+}
+.hero-video__scroll-cue span {
+    display: block;
+    width: 3px;
+    height: 12px;
+    background: var(--color-primary);
+    margin-top: 0;
+    animation: scrollCue 2s var(--ease-luxury) infinite;
+}
+@keyframes scrollCue {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(36px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-video__scroll-cue span { animation: none; }
+}
+</style>
