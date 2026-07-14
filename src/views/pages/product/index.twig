@@ -1,0 +1,182 @@
+{% extends "layouts.master" %}
+
+{% block content %}
+<section class="collection-page section">
+    <div class="collection-page__header reveal">
+        {% component 'breadcrumbs' %}
+        <h1 class="section-title">{{ category.name|default('جميع المنتجات') }}</h1>
+        {% if category.description %}
+            <p class="collection-page__desc">{{ category.description }}</p>
+        {% endif %}
+    </div>
+
+    <div class="collection-page__body">
+
+        {# ===== Sidebar filters ===== #}
+        <aside class="collection-page__filters reveal" id="filters-sidebar">
+            <div class="filter-group">
+                <h3 class="filter-group__title">التصنيفات</h3>
+                {% for sub in categories %}
+                    <a href="{{ sub.url }}" class="filter-group__link {{ sub.is_active ? 'is-active' : '' }}">
+                        {{ sub.name }} <span class="filter-group__count">({{ sub.products_count }})</span>
+                    </a>
+                {% endfor %}
+            </div>
+
+            {% if brands %}
+            <div class="filter-group">
+                <h3 class="filter-group__title">العلامات التجارية</h3>
+                {% for brand in brands %}
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="{{ brand.id }}">
+                        <span>{{ brand.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="filter-group">
+                <h3 class="filter-group__title">السعر</h3>
+                <div class="filter-price">
+                    <input type="number" placeholder="من" class="filter-price__input" id="price-min">
+                    <span>—</span>
+                    <input type="number" placeholder="إلى" class="filter-price__input" id="price-max">
+                </div>
+                <button class="btn-luxury btn-luxury--dark filter-price__apply">تطبيق</button>
+            </div>
+        </aside>
+
+        {# ===== Products grid ===== #}
+        <div class="collection-page__main">
+            <div class="collection-page__toolbar">
+                <button class="collection-page__filters-toggle" id="filters-toggle">
+                    {{ salla_icon('filter') }} الفلاتر
+                </button>
+                <span class="collection-page__count">{{ products.total|default(0) }} منتج</span>
+                <select class="collection-page__sort" id="sort-select">
+                    <option value="latest">الأحدث</option>
+                    <option value="price_asc">السعر: من الأقل</option>
+                    <option value="price_desc">السعر: من الأعلى</option>
+                    <option value="best_selling">الأكثر مبيعًا</option>
+                </select>
+            </div>
+
+            {% if products|length > 0 %}
+            <div class="collection-page__grid">
+                {% for product in products %}
+                    <div class="product-card reveal" style="animation-delay: {{ (loop.index0 % 4) * 0.08 }}s">
+                        <a href="{{ product.url }}" class="product-card__link">
+                            <div class="product-card__image-wrap">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                                {% if product.is_on_sale %}
+                                    <span class="product-card__badge">خصم</span>
+                                {% endif %}
+                            </div>
+                            <div class="product-card__info">
+                                <h3 class="product-card__name">{{ product.name }}</h3>
+                                <span class="product-card__price">{{ product.price }}</span>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="collection-page__pagination">
+                {{ products.links }}
+            </div>
+            {% else %}
+            <div class="collection-page__empty">
+                <p>لا توجد منتجات في هذا التصنيف حاليًا</p>
+                <a href="/" class="btn-luxury btn-luxury--dark">العودة للرئيسية</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<style>
+.collection-page__header { text-align: center; margin-bottom: 3rem; }
+.collection-page__desc { color: var(--color-text-muted); max-width: 560px; margin: 1rem auto 0; }
+
+.collection-page__body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .collection-page__body { grid-template-columns: 1fr; }
+    .collection-page__filters {
+        position: fixed;
+        inset: 0 15% 0 auto;
+        z-index: 60;
+        background: var(--color-cream-soft);
+        transform: translateX(100%);
+        transition: transform var(--duration-medium) var(--ease-luxury);
+        overflow-y: auto;
+        padding: 2rem 1.5rem;
+    }
+    [dir="rtl"] .collection-page__filters { inset: 0 auto 0 15%; transform: translateX(-100%); }
+    .collection-page__filters.is-open { transform: translateX(0); }
+}
+
+.filter-group { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); }
+.filter-group__title { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 1rem; }
+.filter-group__link { display: block; padding: 0.4rem 0; color: var(--color-text-muted); font-size: 0.92rem; transition: color var(--duration-fast) var(--ease-luxury); }
+.filter-group__link:hover, .filter-group__link.is-active { color: var(--color-dark); }
+.filter-group__count { color: var(--color-text-muted); font-size: 0.8rem; }
+.filter-checkbox { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; font-size: 0.9rem; cursor: pointer; }
+.filter-price { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+.filter-price__input { width: 100%; border: 1px solid var(--color-border); padding: 0.5rem; font-family: var(--font-body); }
+
+.collection-page__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.collection-page__filters-toggle { display: none; background: none; border: none; cursor: pointer; align-items: center; gap: 0.4rem; }
+@media (max-width: 900px) { .collection-page__filters-toggle { display: flex; } }
+.collection-page__count { color: var(--color-text-muted); font-size: 0.88rem; }
+.collection-page__sort { border: 1px solid var(--color-border); background: transparent; padding: 0.5rem 0.75rem; font-family: var(--font-body); }
+
+.collection-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.75rem 1.5rem;
+}
+.product-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    inset-inline-start: 0.75rem;
+    background: var(--color-primary);
+    color: var(--color-dark);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    letter-spacing: 0.05em;
+}
+.product-card__image-wrap { position: relative; }
+
+.collection-page__pagination { display: flex; justify-content: center; margin-top: 3.5rem; }
+.collection-page__empty { text-align: center; padding: 4rem 0; }
+.collection-page__empty p { color: var(--color-text-muted); margin-bottom: 1.5rem; }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('filters-toggle');
+    const sidebar = document.getElementById('filters-sidebar');
+    toggle?.addEventListener('click', () => sidebar.classList.toggle('is-open'));
+
+    document.getElementById('sort-select')?.addEventListener('change', (e) => {
+        const url = new URL(window.location);
+        url.searchParams.set('sort_by', e.target.value);
+        window.location = url;
+    });
+});
+</script>
+{% endblock %}
