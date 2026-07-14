@@ -1,0 +1,82 @@
+{#
+    Animated Banners Strip
+    3 بنرات قابلة للتعديل من لوحة التحكم (صورة + عنوان + رابط لكل بنر)
+#}
+{% if theme.settings.get('banners_enabled')|default(true) %}
+<section class="banners-strip section" aria-label="عروض المتجر">
+    <div class="banners-strip__grid">
+        {% for i in 1..3 %}
+            {% set img = theme.settings.get('banner_' ~ i ~ '_image') %}
+            {% set title = theme.settings.get('banner_' ~ i ~ '_title') %}
+            {% set url = theme.settings.get('banner_' ~ i ~ '_url') %}
+            {% if img %}
+            <a href="{{ url|default('#') }}" class="banner-card reveal" style="animation-delay: {{ (i - 1) * 0.15 }}s">
+                <div class="banner-card__image-wrap">
+                    <img src="{{ img }}" alt="{{ title }}" loading="lazy" class="banner-card__image">
+                </div>
+                <div class="banner-card__caption">
+                    <span class="banner-card__title">{{ title }}</span>
+                    <span class="banner-card__arrow">→</span>
+                </div>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+.banners-strip__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+@media (max-width: 900px) {
+    .banners-strip__grid { grid-template-columns: 1fr; }
+}
+.banner-card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-dark);
+}
+.banner-card__image-wrap {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+}
+.banner-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-luxury);
+}
+.banner-card:hover .banner-card__image {
+    transform: scale(1.06);
+}
+.banner-card__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(21,21,21,0.85), transparent);
+    color: var(--color-cream);
+}
+.banner-card__title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+}
+.banner-card__arrow {
+    transition: transform var(--duration-medium) var(--ease-luxury);
+    color: var(--color-primary);
+}
+.banner-card:hover .banner-card__arrow {
+    transform: translateX(-6px);
+}
+[dir="rtl"] .banner-card:hover .banner-card__arrow {
+    transform: translateX(6px);
+}
+</style>
+{% endif %}
