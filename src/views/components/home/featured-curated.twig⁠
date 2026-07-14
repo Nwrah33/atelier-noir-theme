@@ -1,0 +1,86 @@
+{#
+    Featured Curated Products
+    التاجر يختار المنتجات يدويًا من إعدادات الثيم (featured_products)
+    أو نتركها فارغة وتُعرض منتجات مميزة تلقائيًا كـ fallback
+#}
+{% set products = theme.settings.get('featured_products') %}
+{% set display_style = theme.settings.get('featured_display_style')|default('slider') %}
+
+<section class="featured-curated section">
+    <div class="section-header" style="text-align:center">
+        <span class="section-eyebrow">مختارات المتجر</span>
+        <h2 class="section-title">{{ theme.settings.get('featured_title')|default('قطع مختارة لهذا الموسم') }}</h2>
+        <hr class="section-divider">
+    </div>
+
+    <div class="featured-curated__{{ display_style }}">
+        {% if products %}
+            {% for product in products %}
+                <div class="product-card reveal">
+                    <a href="{{ product.url }}" class="product-card__link">
+                        <div class="product-card__image-wrap">
+                            <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                        </div>
+                        <div class="product-card__info">
+                            <h3 class="product-card__name">{{ product.name }}</h3>
+                            <span class="product-card__price">{{ product.price }}</span>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            {# fallback: عرض منتجات المتجر الفعلية تلقائيًا لو ما اختار التاجر شي بعد #}
+            {% component 'featured-products' %}
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.featured-curated__slider {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+}
+.featured-curated__slider::-webkit-scrollbar { height: 4px; }
+.featured-curated__slider::-webkit-scrollbar-thumb { background: var(--color-primary); }
+.featured-curated__slider .product-card {
+    flex: 0 0 clamp(220px, 22vw, 300px);
+    scroll-snap-align: start;
+}
+.featured-curated__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+.product-card__link { display: block; }
+.product-card__image-wrap {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--color-cream);
+}
+.product-card__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-luxury);
+}
+.product-card:hover .product-card__image-wrap img {
+    transform: scale(1.05);
+}
+.product-card__info {
+    padding-top: 0.9rem;
+    text-align: center;
+}
+.product-card__name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 0.35rem;
+}
+.product-card__price {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+</style>
