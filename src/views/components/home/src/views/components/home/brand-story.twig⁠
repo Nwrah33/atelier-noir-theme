@@ -1,0 +1,49 @@
+{% if theme.settings.get('brand_video_enabled')|default(true) %}
+<section class="brand-story section">
+    <div class="brand-story__grid">
+        <div class="brand-story__video-wrap reveal">
+            {% if theme.settings.get('brand_video') %}
+                <video controls playsinline
+                       poster="{{ theme.settings.get('brand_video_poster')|default('') }}"
+                       class="brand-story__video">
+                    <source src="{{ theme.settings.get('brand_video') }}" type="video/mp4">
+                </video>
+            {% elseif theme.settings.get('brand_video_poster') %}
+                <img src="{{ theme.settings.get('brand_video_poster') }}" alt="{{ theme.settings.get('brand_video_title') }}">
+            {% endif %}
+        </div>
+        <div class="brand-story__text reveal">
+            <span class="section-eyebrow">من نحن</span>
+            <h2 class="section-title">{{ theme.settings.get('brand_video_title')|default('حكايتنا') }}</h2>
+            <p class="brand-story__body">{{ theme.settings.get('brand_video_text') }}</p>
+        </div>
+    </div>
+</section>
+
+<style>
+.brand-story__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+}
+@media (max-width: 900px) {
+    .brand-story__grid { grid-template-columns: 1fr; }
+}
+.brand-story__video-wrap {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-dark);
+}
+.brand-story__video, .brand-story__video-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.brand-story__body {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--color-text-muted);
+}
+</style>
+{% endif %}
