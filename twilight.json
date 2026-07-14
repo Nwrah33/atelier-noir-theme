@@ -13,13 +13,10 @@
       "fields": [
         { "id": "hero_media_type", "type": "select", "label": "نوع وسائط الهيرو",
           "options": [
-            { "label": "فيديو مرفوع", "value": "video" },
             { "label": "فيديو يوتيوب", "value": "youtube" },
             { "label": "صورة ثابتة", "value": "image" }
-          ], "default": "video" },
-        { "id": "hero_video", "type": "video", "label": "ارفع فيديو الهيرو (MP4)",
-          "info": "يفضّل فيديو أفقي بدون صوت، مدة 8-15 ثانية، بحجم أقل من 8 ميجا لسرعة التحميل" },
-        { "id": "hero_youtube_url", "type": "text", "label": "رابط فيديو يوتيوب (اختياري بدل الرفع المباشر)",
+          ], "default": "youtube" },
+        { "id": "hero_youtube_url", "type": "text", "label": "رابط فيديو يوتيوب",
           "placeholder": "https://www.youtube.com/watch?v=..." },
         { "id": "hero_image", "type": "image", "label": "صورة الهيرو (تُستخدم كبديل عند تعطيل الفيديو أو على الجوال)" },
         { "id": "hero_title", "type": "text", "label": "العنوان الرئيسي", "default": "فخامة لا تُقاس بالوقت" },
@@ -56,8 +53,7 @@
       "name": "featured_section",
       "fields": [
         { "id": "featured_title", "type": "text", "label": "عنوان القسم", "default": "قطع مختارة لهذا الموسم" },
-        { "id": "featured_products", "type": "products", "label": "اختر المنتجات المميزة يدويًا",
-          "info": "هذا يتيح لك عرض منتجات معيّنة بالضبط بدل الاعتماد على الترتيب التلقائي", "limit": 12 },
+        { "id": "featured_collection", "type": "collection", "label": "اختر تصنيف المنتجات المميزة" },
         { "id": "featured_display_style", "type": "select", "label": "طريقة العرض",
           "options": [
             { "label": "سلايدر أفقي", "value": "slider" },
@@ -71,7 +67,7 @@
       "name": "brand_video_section",
       "fields": [
         { "id": "brand_video_enabled", "type": "checkbox", "label": "تفعيل قسم فيديو القصة", "default": true },
-        { "id": "brand_video", "type": "video", "label": "ارفع فيديو القصة/العلامة التجارية" },
+        { "id": "brand_video_url", "type": "text", "label": "رابط فيديو القصة (يوتيوب أو رابط مباشر)" },
         { "id": "brand_video_poster", "type": "image", "label": "صورة الغلاف قبل تشغيل الفيديو" },
         { "id": "brand_video_title", "type": "text", "label": "عنوان القسم", "default": "حكايتنا" },
         { "id": "brand_video_text", "type": "textarea", "label": "نص القسم",
