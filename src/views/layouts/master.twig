@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ trans.getLocaleDirection() }}" dir="{{ trans.getLocaleDirection() == 'rtl' ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% hook 'head:start' %}
+    {% hook 'head' %}
+
+    <title>{{ page_title }} | {{ store.name }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{{ 'theme.css'|asset }}">
+
+    <style>
+        :root {
+            --color-primary: {{ theme.settings.get('color_primary')|default('#B08D57') }};
+            --color-dark: {{ theme.settings.get('color_dark')|default('#151515') }};
+            --color-cream: {{ theme.settings.get('color_cream')|default('#F5F1EA') }};
+        }
+    </style>
+
+    {% block styles %}{% endblock %}
+    {% hook 'head:end' %}
+</head>
+<body class="atelier-noir-theme">
+
+    {% hook 'body:start' %}
+
+    {% component 'header' %}
+
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% component 'footer' %}
+
+    {% hook 'body:end' %}
+
+    <script src="{{ 'app.js'|asset('dist/app.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+
+    {% hook 'scripts' %}
+</body>
+</html>
